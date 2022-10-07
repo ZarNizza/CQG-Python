@@ -21,41 +21,46 @@ cfgDict = {}
 cfgKeys = '['
 txtOutList = []
 
-with open(args.confFile, 'r', encoding='utf-8', errors='replace') as cfg, \
-        open(args.textFile, 'r', encoding='utf-8', errors='replace') as txt:
+try:
+    with open(args.confFile, 'r', encoding='utf-8', errors='replace') as cfg, \
+            open(args.textFile, 'r', encoding='utf-8', errors='replace') as txt:
 
-    # building Dictionary of replascement pairs from config file
-    #
-    for cfgLine in cfg:
-        match = re.search('(\S+)=(\S+)', cfgLine.strip())
-        if match:
-            cfgDict.update({str(match.group(1)).strip()
-                           : str(match.group(2)).strip()})
+        # building Dictionary of replascement pairs from config file
+        #
+        for cfgLine in cfg:
+            match = re.search('(\S+)=(\S+)', cfgLine.strip())
+            if match:
+                cfgDict.update({str(match.group(1)).strip()
+                               : str(match.group(2)).strip()})
 
-    if len(cfgDict) == 0:
-        print('Error: empty Config set')
-        quit()
+        if len(cfgDict) == 0:
+            print('Error: empty Config set')
+            quit()
 
-    # config Keys for RegEx replace function
-    #
-    cfgKeys += ''.join(cfgDict.keys())
-    cfgKeys += ']{1}'
+        # config Keys for RegEx replace function
+        #
+        cfgKeys += ''.join(cfgDict.keys())
+        cfgKeys += ']{1}'
 
-    # defining RegEx replace function
-    #
-    def replaceFunction(matchObj):
-        global replaceCounter
-        replaceCounter += 1
-        return cfgDict[str(matchObj.group(0))]
+        # defining RegEx replace function
+        #
+        def replaceFunction(matchObj):
+            global replaceCounter
+            replaceCounter += 1
+            return cfgDict[str(matchObj.group(0))]
 
-    # processing income data,
-    # appending count marks (replaceCounter) and
-    # filling List of unsorted results
-    #
-    for line in txt:
-        replaceCounter = 0
-        txtLine = re.sub(cfgKeys, replaceFunction, line).rstrip()
-        txtOutList.append(str(replaceCounter).zfill(10) + txtLine)
+        # processing income data,
+        # appending count marks (replaceCounter) and
+        # filling List of unsorted results
+        #
+        for line in txt:
+            replaceCounter = 0
+            txtLine = re.sub(cfgKeys, replaceFunction, line).rstrip()
+            txtOutList.append(str(replaceCounter).zfill(10) + txtLine)
+
+except IOError as e:
+    print('Error ' + str(e))
+    quit()
 
 # sorting list
 # and printing results, cleared from count marks
