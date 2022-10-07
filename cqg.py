@@ -14,7 +14,6 @@ args = parser.parse_args()
 cfgDict = {}
 cfgKeys = '['
 txtOutList = []
-replaceCounter = 0
 
 with open(args.confFile, 'r', encoding='utf-8', errors='replace') as cfg, open(args.textFile, 'r', encoding='utf-8', errors='replace') as txt:
 
@@ -24,10 +23,17 @@ with open(args.confFile, 'r', encoding='utf-8', errors='replace') as cfg, open(a
     match = re.search('(\S+)=(\S+)', cfgLine.strip())
     if match:
       cfgDict.update({str(match.group(1)).strip() : str(match.group(2)).strip()})
+
+  if len(cfgDict) == 0:
+    print('Error: empty Config set')
+    quit()
+
+  # config Keys for RegEx replace function
+  #
   cfgKeys += ''.join(cfgDict.keys())
   cfgKeys += ']{1}'
 
-  # defining regex replace function
+  # defining RegEx replace function
   #
   def replaceFunction(matchObj):
     global replaceCounter
