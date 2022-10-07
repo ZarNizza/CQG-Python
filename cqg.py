@@ -4,10 +4,10 @@ import argparse
 # getting Config and Text files names from command line arguments
 #
 descriptiontext = 'This program get a list of symbol pairs from a Configuration file, \
-  and replace value1 by value2 for all matches in a given Text file. \
-  Then sort changed lines by the total number of symbols replaced, \
-  starting from the most changed line and output resulting text to console. \
-  Names of both files are passed as command line arguments.'
+    and replace value1 by value2 for all matches in a given Text file. \
+    Then sort changed lines by the total number of symbols replaced, \
+    starting from the most changed line and output resulting text to console. \
+    Names of both files are passed as command line arguments.'
 parser = argparse.ArgumentParser(description=descriptiontext)
 parser.add_argument('cfgfile', type=str,
                     help='Config file with replace rules')
@@ -32,7 +32,7 @@ def replaceFunction(matchobj):
 #
 try:
     with open(args.cfgfile, 'r', encoding='utf-8', errors='replace') as cfg, \
-            open(args.textfile, 'r', encoding='utf-8', errors='replace') as txt:
+         open(args.textfile, 'r', encoding='utf-8', errors='replace') as txt:
 
         # building dictionary of replascement pairs from config file
         #
