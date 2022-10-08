@@ -91,7 +91,7 @@ except IOError as e:
 # and printing results, cleared from count marks
 #
 if (len(text_out_list) > 0):
-    text_out_list.sort()
+    text_out_list.sort(reverse=True)
     for out_line in text_out_list:
         print(out_line[10:])
 else:
