@@ -1,3 +1,15 @@
+# IMHO, nice & fast, resourse-saving solution is:
+# - to use RegEx for search-and-replace operation,
+# - apply sort "in-place" list.sort() method.
+#
+# For this purpose:
+# - create dictionary of replacement pairs from config file,
+# - get config keys from dictionary for RegEx replace function,
+# - count number of replacements in replace function,
+# - add current result number of replacements into current text line as prefix,
+# - discard it at the final print.
+#
+
 import re
 import argparse
 
@@ -21,7 +33,10 @@ cfgdict = {}
 cfgkeys = '['
 textoutlist = []
 
-
+# replace function:
+# increment counter and
+# return symbol for replacement
+#
 def replaceFunction(matchobj):
     global replacecounter
     replacecounter += 1
@@ -34,7 +49,7 @@ try:
     with open(args.cfgfile, 'r', encoding='utf-8', errors='replace') as cfg, \
          open(args.textfile, 'r', encoding='utf-8', errors='replace') as txt:
 
-        # building dictionary of replascement pairs from config file
+        # creating dictionary of replacement pairs from config file
         #
         for cfgline in cfg:
             match = re.search('(\S+)=(\S+)', cfgline.strip())
@@ -46,14 +61,14 @@ try:
             print('Error: empty config set')
             quit()
 
-        # config keys for RegEx replace function
+        # set config keys for RegEx replace function
         #
         cfgkeys += ''.join(cfgdict.keys())
         cfgkeys += ']{1}'
 
-        # processing income data,
-        # appending count marks (replacecounter) and
-        # filling list of unsorted results
+        # RegEx search&replacing,
+        # add count mark (replacecounter), and
+        # appending the list of unsorted results
         #
         for line in txt:
             replacecounter = 0
@@ -64,11 +79,12 @@ except IOError as e:
     print('Error ' + str(e))
     quit()
 
-# sorting list
+# sorting list,
 # and printing results, cleared from count marks
 #
 if (len(textoutlist) > 0):
-    for outLine in sorted(textoutlist, reverse=True):
+    textoutlist.sort()
+    for outLine in textoutlist:
         print(outLine[10:])
 else:
     print('Empty result.')
