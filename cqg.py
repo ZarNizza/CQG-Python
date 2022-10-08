@@ -65,7 +65,7 @@ try:
                 cfg_dict.update({str(match.group(1)).strip():
                                 str(match.group(2)).strip()})
 
-        if len(cfg_dict) == 0:
+        if not len(cfg_dict):
             print('Error: empty config set')
             quit()
 
