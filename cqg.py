@@ -21,59 +21,59 @@ descriptiontext = 'This program get a list of symbol pairs from a Configuration 
     starting from the most changed line and output resulting text to console. \
     Names of both files are passed as command line arguments.'
 parser = argparse.ArgumentParser(description=descriptiontext)
-parser.add_argument('cfgfile', type=str,
+parser.add_argument('cfg_file', type=str,
                     help='Config file with replace rules')
-parser.add_argument('textfile', type=str, help='Text file to process')
+parser.add_argument('text_file', type=str, help='Text file to process')
 args = parser.parse_args()
 
 
 # init
 #
-cfgdict = {}
-cfgkeys = '['
-textoutlist = []
+cfg_dict = {}
+cfg_keys = '['
+text_out_list = []
 
 # replace function:
 # increment counter and
 # return symbol for replacement
 #
-def replaceFunction(matchobj):
-    global replacecounter
-    replacecounter += 1
-    return cfgdict[str(matchobj.group(0))]
+def replace_function(match_obj):
+    global replace_counter
+    replace_counter += 1
+    return cfg_dict[str(match_obj.group(0))]
 
 
 # processing
 #
 try:
-    with open(args.cfgfile, 'r', encoding='utf-8', errors='replace') as cfg, \
-         open(args.textfile, 'r', encoding='utf-8', errors='replace') as txt:
+    with open(args.cfg_file, 'r', encoding='utf-8', errors='replace') as c_file, \
+         open(args.text_file, 'r', encoding='utf-8', errors='replace') as t_file:
 
         # creating dictionary of replacement pairs from config file
         #
-        for cfgline in cfg:
-            match = re.search('(\S+)=(\S+)', cfgline.strip())
+        for c_line in c_file:
+            match = re.search('(\S+)=(\S+)', c_line.strip())
             if match:
-                cfgdict.update({str(match.group(1)).strip():
+                cfg_dict.update({str(match.group(1)).strip():
                                 str(match.group(2)).strip()})
 
-        if len(cfgdict) == 0:
+        if len(cfg_dict) == 0:
             print('Error: empty config set')
             quit()
 
         # set config keys for RegEx replace function
         #
-        cfgkeys += ''.join(cfgdict.keys())
-        cfgkeys += ']{1}'
+        cfg_keys += ''.join(cfg_dict.keys())
+        cfg_keys += ']{1}'
 
         # RegEx search&replacing,
-        # add count mark (replacecounter), and
+        # add count mark (replace_counter), and
         # appending the list of unsorted results
         #
-        for line in txt:
-            replacecounter = 0
-            textline = re.sub(cfgkeys, replaceFunction, line).rstrip()
-            textoutlist.append(str(replacecounter).zfill(10) + textline)
+        for t_line in t_file:
+            replace_counter = 0
+            text_line = re.sub(cfg_keys, replace_function, t_line).rstrip()
+            text_out_list.append(str(replace_counter).zfill(10) + text_line)
 
 except IOError as e:
     print('Error ' + str(e))
@@ -82,9 +82,9 @@ except IOError as e:
 # sorting list,
 # and printing results, cleared from count marks
 #
-if (len(textoutlist) > 0):
-    textoutlist.sort()
-    for outLine in textoutlist:
-        print(outLine[10:])
+if (len(text_out_list) > 0):
+    text_out_list.sort()
+    for out_line in text_out_list:
+        print(out_line[10:])
 else:
     print('Empty result.')
