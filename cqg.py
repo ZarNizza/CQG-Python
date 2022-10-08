@@ -12,6 +12,7 @@
 
 import re
 import argparse
+import os.path
 
 # getting Config and Text files names from command line arguments
 #
@@ -48,6 +49,13 @@ def replace_function(match_obj):
 try:
     with open(args.cfg_file, 'r', encoding='utf-8', errors='replace') as c_file, \
          open(args.text_file, 'r', encoding='utf-8', errors='replace') as t_file:
+
+        # prevent useless work if the text file is empty
+        # (it's existence verified by Try/With/Open operation)
+        #
+        if not os.path.getsize(args.text_file):
+            print('Error: empty text file')
+            quit()
 
         # creating dictionary of replacement pairs from config file
         #
