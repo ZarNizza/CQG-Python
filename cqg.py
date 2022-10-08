@@ -87,12 +87,11 @@ except IOError as e:
     print('Error ' + str(e))
     quit()
 
+
 # sorting list,
 # and printing results, cleared from count marks
 #
-if (len(text_out_list) > 0):
-    text_out_list.sort(reverse=True)
-    for out_line in text_out_list:
-        print(out_line[10:])
-else:
-    print('Empty result.')
+text_out_list.sort(reverse=True)
+for out_line in text_out_list:
+    print(out_line[10:])
+
