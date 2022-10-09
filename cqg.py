@@ -14,11 +14,11 @@ import argparse
 import os.path
 
 class TextProcessor:
-    # init
-    cfg_dict = {}
-    cfg_keys = '['
-    text_out_list = []
-    replace_counter = 0
+    def __init__(self):
+        self.cfg_dict = {}
+        self.cfg_keys = '['
+        self.text_out_list = []
+        self.replace_counter = 0
 
     def replace_function(self, match_obj):
     # increment counter and return symbol for replacement
@@ -29,14 +29,12 @@ class TextProcessor:
     # preparing dictionary and keys list
         try:
             with open(cfg_file_name, 'r', encoding='utf-8', errors='replace') as c_file:
-
                 # creating dictionary of replacement pairs from config file
                 for c_line in c_file:
                     match = re.search('(\S+)=(\S+)', c_line.strip())
                     if match:
                         self.cfg_dict.update({str(match.group(1)).strip():
                                         str(match.group(2)).strip()})
-
                 if not len(self.cfg_dict):
                     print('Error: empty config set')
                     quit()
@@ -53,9 +51,8 @@ class TextProcessor:
     # processing
         try:
             with open(txt_file_name, 'r', encoding='utf-8', errors='replace') as t_file:
-
                 # prevent useless work if the text file is empty
-                # (it's existence verified by Try/With/Open operation)
+                # (it's existence verified by Open operation)
                 if not os.path.getsize(txt_file_name):
                     print('Error: empty text file')
                     quit()
@@ -80,6 +77,8 @@ class TextProcessor:
         for out_line in self.text_out_list:
             print(out_line[10:])
 
+
+# main
 
 # getting Config and Text files names from command line arguments
 description_text = '''This program get a list of symbol pairs from a Configuration file,
