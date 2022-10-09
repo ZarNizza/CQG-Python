@@ -43,7 +43,6 @@ class TextProcessor:
                 self.cfg_keys += ''.join(self.cfg_dict.keys())
                 self.cfg_keys += ']{1}'
 
-
         except IOError as e:
             print('Error ' + str(e))
             quit()
