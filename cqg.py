@@ -13,6 +13,7 @@ import re
 import argparse
 import os.path
 
+
 class TextProcessor:
     def __init__(self):
         self.cfg_dict = {}
@@ -21,12 +22,12 @@ class TextProcessor:
         self.replace_counter = 0
 
     def replace_function(self, match_obj):
-    # increment counter and return symbol for replacement
+        # increment counter and return symbol for replacement
         self.replace_counter += 1
         return self.cfg_dict[str(match_obj.group(0))]
 
     def load_config(self, cfg_file_name):
-    # preparing dictionary and keys list
+        # preparing dictionary and keys list
         try:
             with open(cfg_file_name, 'r', encoding='utf-8', errors='replace') as c_file:
                 # creating dictionary of replacement pairs from config file
@@ -34,8 +35,8 @@ class TextProcessor:
                     match = re.search('(\S+)=(\S+)', c_line.strip())
                     if match:
                         self.cfg_dict.update({str(match.group(1)).strip():
-                                        str(match.group(2)).strip()})
-                if not len(self.cfg_dict):
+                                              str(match.group(2)).strip()})
+                if not self.cfg_dict:
                     print('Error: empty config set')
                     quit()
 
@@ -48,7 +49,7 @@ class TextProcessor:
             quit()
 
     def replace_text(self, txt_file_name):
-    # processing
+        # processing
         try:
             with open(txt_file_name, 'r', encoding='utf-8', errors='replace') as t_file:
                 # prevent useless work if the text file is empty
@@ -62,8 +63,10 @@ class TextProcessor:
                 # appending the list of unsorted results
                 for t_line in t_file:
                     self.replace_counter = 0
-                    text_line = re.sub(self.cfg_keys, self.replace_function, t_line).rstrip()
-                    self.text_out_list.append(str(self.replace_counter).zfill(10) + text_line)
+                    text_line = re.sub(
+                        self.cfg_keys, self.replace_function, t_line).rstrip()
+                    self.text_out_list.append(
+                        str(self.replace_counter).zfill(10) + text_line)
 
                 # sorting list
                 self.text_out_list.sort(reverse=True)
@@ -73,7 +76,7 @@ class TextProcessor:
             quit()
 
     def prn(self):
-    # printing results, cleared from count marks
+        # printing results, cleared from count marks
         for out_line in self.text_out_list:
             print(out_line[10:])
 
