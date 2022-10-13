@@ -1,3 +1,5 @@
+#! python3
+
 # IMHO, nice & fast, resourse-saving solution is:
 # - to use RegEx for search-and-replace operation,
 # - apply sort "in-place" list.sort() method.
@@ -81,22 +83,24 @@ class TextProcessor:
             print(out_line[10:])
 
 
-# main
+def main():
+    # getting Config and Text files names from command line arguments
+    description_text = '''This program get a list of symbol pairs from a Configuration file,
+        and replace value1 by value2 for all matches in a given Text file.
+        Then sort changed lines by the total number of symbols replaced,
+        starting from the most changed line and output resulting text to console.
+        Names of both files are passed as command line arguments.'''
+    parser = argparse.ArgumentParser(description=description_text)
+    parser.add_argument('cfg_file_name', type=str,
+                        help='Config file with replace rules')
+    parser.add_argument('txt_file_name', type=str,
+                        help='Text file to process')
+    args = parser.parse_args()
 
-# getting Config and Text files names from command line arguments
-description_text = '''This program get a list of symbol pairs from a Configuration file,
-    and replace value1 by value2 for all matches in a given Text file.
-    Then sort changed lines by the total number of symbols replaced,
-    starting from the most changed line and output resulting text to console.
-    Names of both files are passed as command line arguments.'''
-parser = argparse.ArgumentParser(description=description_text)
-parser.add_argument('cfg_file_name', type=str,
-                    help='Config file with replace rules')
-parser.add_argument('txt_file_name', type=str,
-                    help='Text file to process')
-args = parser.parse_args()
+    tp = TextProcessor()
+    tp.load_config(args.cfg_file_name)
+    tp.replace_text(args.txt_file_name)
+    tp.prn()
 
-tp = TextProcessor()
-tp.load_config(args.cfg_file_name)
-tp.replace_text(args.txt_file_name)
-tp.prn()
+
+main()
