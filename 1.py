@@ -22,9 +22,12 @@ def main():
     #     list_of_Persons.append(Person(**i))
 
     # tadaaaam!..
-    def p(i):
-        return Person(**i)
-    list_of_Persons = list(map(p,data))
+    #def p(i):
+    #    return Person(**i)
+    #list_of_Persons = list(map(p,data))
+
+    # tadabadaaam!..
+    list_of_Persons = list(map(lambda i: Person(**i), data))
 
 
     # print result
