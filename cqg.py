@@ -1,15 +1,15 @@
 #! python3
 
-# IMHO, nice & fast, resourse-saving solution is:
-# - to use RegEx for search-and-replace operation,
-# - apply sort "in-place" list.sort() method.
-#
-# For this purpose:
-# - create dictionary of replacement pairs from config file,
-# - get config keys from dictionary for RegEx replace function,
-# - count number of replacements in replace function,
-# - add current result number of replacements into current text line as prefix,
-# - discard it at the final print.
+''' IMHO, nice & fast, resourse-saving solution is:
+- to use RegEx for search-and-replace operation,
+- apply sort "in-place" list.sort() method.
+
+For this purpose:
+- create dictionary of replacement pairs from config file,
+- get config keys from dictionary for RegEx replace function,
+- count number of replacements in replace function,
+- add current result number of replacements into current text line as prefix,
+- discard it at the final print.'''
 
 import re
 import argparse
