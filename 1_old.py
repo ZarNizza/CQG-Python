@@ -16,19 +16,17 @@ def main():
         {'name': 'Ivan3', 'nick': 'Ivanych3'}]
     list_of_Persons = []
 
-
     # previous version
-    #for i in data:
+    # for i in data:
     #    list_of_Persons.append(Person(**i))
 
     # tadaaaam!..
-    #def p(i):
+    # def p(i):
     #    return Person(**i)
-    #list_of_Persons = list(map(p,data))
+    # list_of_Persons = list(map(p,data))
 
     # tadabadaaam!..
     list_of_Persons = list(map(lambda i: Person(**i), data))
-
 
     # print result
     for pers in list_of_Persons:
