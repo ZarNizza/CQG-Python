@@ -15,7 +15,7 @@ data_file_name = "data.txt"
 
 # 3 executors x N tasks inside each
 def sort_by_future_pool(self):
-    print("* * * ft_Pool_Sort")
+    print("* * * ft_ProcPoolExec_Sort")
     st_time = datetime.datetime.now().timestamp()
     sorters_list = [
         self.sorter,
@@ -26,14 +26,11 @@ def sort_by_future_pool(self):
         for sl in sorters_list:
             executor.submit(sl, self.data)
     fin_time = datetime.datetime.now().timestamp()
-    print("ft_Pool_SortTime = " + str(fin_time - st_time))
+    print("ft_ProcPoolExec_SortTime = " + str(fin_time - st_time))
 
 
 if __name__ == "__main__":
-    st_time = datetime.datetime.now().timestamp()
     ds = DataSorter()
     ds.get_random_letters_list(data_file_name)
     setattr(DataSorter, "sort_by_future_pool", sort_by_future_pool)
     ds.sort_by_future_pool()
-    fin_time = datetime.datetime.now().timestamp()
-    print("ft_Pool_OverallTime = " + str(fin_time - st_time))
