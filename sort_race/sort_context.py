@@ -39,7 +39,7 @@ class DataSorter:
                 print("File write IO_Error " + str(e))
         print(f"* {str(len(self.data))} items")
         fin_time = datetime.datetime.now().timestamp()
-        print("get_data_Time =", fin_time - st_time, "\n")
+        print("* get_data_Time =", fin_time - st_time, "\n")
 
     def MyFn(self, s):
         return s

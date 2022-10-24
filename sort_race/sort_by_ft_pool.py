@@ -2,7 +2,9 @@
 # Measure the execution time of a group of identical sorts
 # in different versions of multithreading and asynchrony
 #
-# multiprocessing.Pool version
+# concurrent.futures.ProcessPoolExecutor version
+# note: .map() creates one future per each data item — 1 000 000 in this study case )))
+
 
 import concurrent.futures
 import datetime
@@ -20,22 +22,9 @@ def sort_by_future_pool(self):
         self.sorter_MyFn,
         self.sorter_MyFn_reverse,
     ]
-    with concurrent.futures.ProcessPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ProcessPoolExecutor() as executor:
         for sl in sorters_list:
             executor.submit(sl, self.data)
-    fin_time = datetime.datetime.now().timestamp()
-    print("ft_Pool_SortTime = " + str(fin_time - st_time))
-
-
-# 3 executors (with .map) x N tasks inside each
-def sort_by_future_pool_map(self):
-    print("* * * ft_Pool_Sort with .map()")
-    st_time = datetime.datetime.now().timestamp()
-    with concurrent.futures.ProcessPoolExecutor(max_workers=3) as executor:
-        executor.map(self.sorter, self.data)
-        # executor.map(self.sorter_MyFn, self.data)
-        # executor.map(self.sorter_MyFn_reverse, self.data)
-        executor.shutdown()
     fin_time = datetime.datetime.now().timestamp()
     print("ft_Pool_SortTime = " + str(fin_time - st_time))
 
@@ -46,7 +35,5 @@ if __name__ == "__main__":
     ds.get_random_letters_list(data_file_name)
     setattr(DataSorter, "sort_by_future_pool", sort_by_future_pool)
     ds.sort_by_future_pool()
-    # setattr(DataSorter, "sort_by_future_pool_map", sort_by_future_pool_map)
-    # ds.sort_by_future_pool_map()
     fin_time = datetime.datetime.now().timestamp()
     print("ft_Pool_OverallTime = " + str(fin_time - st_time))
