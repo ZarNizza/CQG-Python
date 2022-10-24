@@ -16,7 +16,7 @@ n = 3
 
 def get_random_letters_list(data_file_name):
     global data
-    print("* ft_Pool")
+    print("* linear task")
     st_time = datetime.datetime.now().timestamp()
     try:
         with open(data_file_name, "r", encoding="utf-8", errors="replace") as c_file:
@@ -91,11 +91,11 @@ def main():
     sorter_MyFn_reverse(data)
     sorter_MyFn_reverse(data)
     fin_time = datetime.datetime.now().timestamp()
-    print("simple_SortTime = " + str(fin_time - st_time))
+    print("linear_SortTime = " + str(fin_time - st_time))
 
 
 st_time = datetime.datetime.now().timestamp()
 get_random_letters_list(data_file_name)
 main()
 fin_time = datetime.datetime.now().timestamp()
-print("simple_OverallTime = " + str(fin_time - st_time))
+print("linear_OverallTime = " + str(fin_time - st_time))
