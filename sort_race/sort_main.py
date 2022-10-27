@@ -1,10 +1,9 @@
-#
-# Measure the execution time of a group of identical sorts
-# in different versions of multithreading and asynchrony
-#
-# all-in-one version
-# note: .map() creates one future per each data item, = 1 000 000 in this study case )))
+'''Measure the execution time of a group of identical sorts
+in different versions of multithreading and asynchrony
 
+all-in-one version
+note: .map() creates one future per each data item, = 1 000 000 in this study case )))
+'''
 
 import asyncio
 import multiprocessing
@@ -12,12 +11,11 @@ import concurrent.futures
 import datetime
 from sort_context import DataSorter
 
-data_file_name = "data.txt"
 
-
-# linear execution
-# 3N serial tasks
 def linear_sort(self):
+    ''' linear execution
+        3N serial tasks
+    '''
     print("* * * linear_Sort")
     st_time = datetime.datetime.now().timestamp()
     self.batch_sorter(self.data)
@@ -27,9 +25,10 @@ def linear_sort(self):
     print("linear_overall_time = " + str(fin_time - st_time) + "\n")
 
 
-# concurrent.futures.ProcessPoolExecutor
-# 3 executors x N tasks inside each
 def sort_by_future_pool(self):
+    ''' concurrent.futures.ProcessPoolExecutor
+        3 executors x N tasks inside each
+    '''
     print("* * * ft_ProcPoolExec_Sort")
     st_time = datetime.datetime.now().timestamp()
     sorters_list = [
@@ -44,9 +43,10 @@ def sort_by_future_pool(self):
     print("ft_ProcPoolExec_overall_time = " + str(fin_time - st_time) + "\n")
 
 
-# concurrent.futures.ProcessPoolExecutor
-# 3N executors x 1 task
 def sort_by_future_pool_3n(self):
+    ''' concurrent.futures.ProcessPoolExecutor
+        3N executors x 1 task
+    '''
     print("* * * 3N_ft_ProcPoolExec_Sort")
     st_time = datetime.datetime.now().timestamp()
     sorters_list = [
@@ -62,9 +62,10 @@ def sort_by_future_pool_3n(self):
     print("3N_ft_ProcPoolExec_overall_time = " + str(fin_time - st_time) + "\n")
 
 
-# multiprocessing.Pool
-# 3 async tasks x 3 tasks inside each
 def sort_by_mp_pool(self):
+    ''' multiprocessing.Pool
+        3 async tasks x 3 tasks inside each
+    '''
     print("* * * mp_Pool_Sort")
     st_time = datetime.datetime.now().timestamp()
     with multiprocessing.Pool() as pool:
@@ -75,8 +76,9 @@ def sort_by_mp_pool(self):
     print("mp_Pool_overall_time = " + str(fin_time - st_time) + "\n")
 
 
-# 9 Process tasks
 def sort_by_mp_process(self):
+    '''9 Process tasks
+    '''
     print("* * * mp_Process_Sort")
     st_time = datetime.datetime.now().timestamp()
     # multiprocessing.set_start_method("spawn")
@@ -119,16 +121,14 @@ def sort_by_mp_process(self):
     fin_time = datetime.datetime.now().timestamp()
     print("mp_Process_overall_time = " + str(fin_time - st_time) + "\n")
 
-
-# async
-# 3N tasks *concurrently*
 async def async_sort(self):
+    ''' async
+        3N tasks *concurrently*
+    '''
     print("* * * asyncio_Sort")
     st_time = datetime.datetime.now().timestamp()
-    await asyncio.gather(
-        self.async_sorter(self.data, 1),
-        self.async_sorter(self.data, 2),
-        self.async_sorter(self.data, 3),
+    await asyncio.gather( self.async_sorter(self.data, 1),
+        self.async_sorter(self.data, 2),   self.async_sorter(self.data, 3),
         self.async_sorter_MyFn(self.data, 1),
         self.async_sorter_MyFn(self.data, 2),
         self.async_sorter_MyFn(self.data, 3),
@@ -142,7 +142,7 @@ async def async_sort(self):
 
 if __name__ == "__main__":
     ds = DataSorter()
-    ds.get_random_letters_list(data_file_name)
+    ds.get_random_letters_list()
 
     setattr(DataSorter, "linear_sort", linear_sort)
     ds.linear_sort()

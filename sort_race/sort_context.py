@@ -1,5 +1,5 @@
-#
-# creating functions for sort benchmark
+'''creating functions for sort benchmark
+'''
 
 import asyncio
 import random
@@ -12,13 +12,15 @@ class DataSorter:
     n = 3
 
     def get_random_letters_list(self, data_file_name="data.txt"):
+        '''read data from a file.
+        In case some error create and save new data set.
+        '''
         print("* get data")
         st_time = datetime.datetime.now().timestamp()
         try:
             with open(
                 data_file_name, "r", encoding="utf-8", errors="replace"
             ) as c_file:
-                # read data from file
                 for c_line in c_file:
                     self.data.append(c_line)
         except IOError as e:
@@ -28,7 +30,6 @@ class DataSorter:
                 with open(
                     data_file_name, "w", encoding="utf-8", errors="replace"
                 ) as c_file:
-                    # creating data and write it to file
                     letters = string.ascii_lowercase
                     for _ in range(1_000_000):
                         random_string = ""
@@ -43,9 +44,13 @@ class DataSorter:
         print("* get_data_Time =", fin_time - st_time, "\n")
 
     def MyFn(self, s):
+        '''some callable function for measure additional load
+        '''
         return s
 
     def sorter(self, data, i):
+        '''simple sort single copy of data
+        '''
         data_copy = data.copy()
         print(len(data_copy), end=" _ ")
         st = datetime.datetime.now().timestamp()
@@ -54,6 +59,8 @@ class DataSorter:
         print("Ss" + str(i), str(fin - st))
 
     def sorter_MyFn(self, data, i):
+        '''single copy sort with function call
+        '''
         data_copy = data.copy()
         print(len(data_copy), end=" _ ")
         st = datetime.datetime.now().timestamp()
@@ -62,6 +69,8 @@ class DataSorter:
         print("Ms" + str(i), str(fin - st))
 
     def sorter_MyFn_reverse(self, data, i):
+        '''single copy reverse sort with function call
+        '''
         data_copy = data.copy()
         print(len(data_copy), end=" _ ")
         st = datetime.datetime.now().timestamp()
@@ -70,6 +79,8 @@ class DataSorter:
         print("Mr" + str(i), str(fin - st))
 
     def batch_sorter(self, data):
+        '''sequential sorting of a batch of independent copies
+        '''
         # print("n-sort\n", data)
         for i in range(1, self.n + 1):
             self.sorter(data, i)
